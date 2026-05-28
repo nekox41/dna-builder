@@ -10,6 +10,12 @@ import { env } from "../env"
 const setting = useSettingStore()
 const router = useRouter()
 const items = [
+        {
+        name: "script-list",
+        path: "/scripts",
+        icon: "ri:code-s-slash-line",
+        show: env.isApp
+    },
     {
         name: "char-build",
         path: "/char",
