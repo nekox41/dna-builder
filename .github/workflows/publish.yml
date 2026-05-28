@@ -151,6 +151,14 @@ jobs:
                   releaseDraft: false
                   prerelease: false
                   args: ${{ matrix.args }}
+                  
+          # ======= 💡 紧接着在后面加上这几行 =======
+            - name: Upload MSI MSI to Job Artifacts
+              uses: actions/upload-artifact@v4
+              with:
+                name: dna-builder-msi
+                path: src-tauri/target/release/bundle/msi/*.msi
+            # =======================================
 
             - name: Add summary
               if: success() && github.event_name != 'pull_request'
