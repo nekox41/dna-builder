@@ -2081,7 +2081,7 @@
     "极度稀有的魔灵，有着欧泊一般璀璨的光泽，曾一度被认为是只存在于吟游诗人诗歌中的幻想生物。": "D’une rareté presque mythique, ce Géniemon arbore les reflets changeants de l’opale. Longtemps, l’on crut qu’il n’existait que dans les ballades des bardes et les rêves des ménestrels.",
     "极度稀有的魔灵，有着紫水晶一般璀璨的光泽，曾一度被认为是只存在于吟游诗人诗歌中的幻想生物。": "D’une rareté presque mythique, ce Géniemon arbore l’éclat cristallin de l’améthyste.\nLongtemps, l’on crut qu’il n’existait que dans les ballades des bardes et les rêves des ménestrels.",
     "极光号劫持事件简报": "Rapport sur le détournement de l’Express Aurora",
-    "极光号主炮": "Canon principal de l’Express Aurora",
+    "极光号主炮": "Canon de l’Express Aurora",
     "极光快车上的秘密": "Le secret de l’Express Aurora",
     "极速定格·白樱": "Instant figé – Blanc sakura",
     "极速定格·本色": "Instant figé",
@@ -2128,7 +2128,7 @@
     "技能范围": "Portée de compétence",
     "技能开启剑气伤害": "Dégâts de l’onde tranchante",
     "技能耐久": "Durée de compétence",
-    "技能伤害": "Dégâts de compétence",
+    "技能伤害": "Dégâts de compétence infligés",
     "技能伤害提高": "Augmentation des Dégâts de compétence",
     "技能伤害提高效果持续时间": "Durée de l’effet d’augmentation des Dégâts de compétence",
     "技能释放伤害": "Dégâts de compétence",
@@ -3296,6 +3296,7 @@
     "扑棱鱼": "Fluttille",
     "扑棱鱼·异种": "Fluttille variante",
     "匍地枝": "Vrille rampante",
+    "普攻增伤": "Dégâts d’attaque normale",
     "普奇": "Putsch",
     "普通一脚·迷津": "Un simple coup de pied — Dédale mystique",
     "普通一脚Ⅰ": "Un simple coup de pied I",
@@ -3463,7 +3464,7 @@
     "取得最高难度“梦魇残声·雪国的野兽”的胜利，未受到生命值伤害且未召唤协战同伴": "Dans [Échos nocturnes : La Bête née du blizzard] en difficulté maximale, remporter le combat sans perdre de PV ni invoquer de Partenaires de combat",
     "取得最高难度“梦魇残声·羽化者”的胜利，且未召唤协战同伴": "Remporter [Échos nocturnes : L’Éclose] en difficulté maximale, sans invoquer de Partenaires de combat",
     "取得最高难度“梦魇残声·羽化者”的胜利，未受到伤害且未召唤协战同伴": "Remporter [Échos nocturnes : L’Éclose] en difficulté maximale, sans perdre de PV ni invoquer de Partenaires de combat",
-    "取消": "Annulation",
+    "取消": "Annuler",
     "全部": "Tout",
     "全部类型": "Tous types",
     "全村的希望Ⅰ": "L’espoir du peuple I",
@@ -4428,6 +4429,7 @@
     "隙中花": "Fleur-des-Fissures",
     "下落攻击": "Attaque plongeante",
     "下落攻击伤害": "Dégâts d’attaque plongeante",
+    "下落增伤": "Dégâts d’attaque plongeante",
     "下水道的枯木": "Bois mort des égouts",
     "下水道的幽灵": "Le fantôme des égouts",
     "下水道嘉年华": "Carnaval des égouts",
@@ -4637,6 +4639,7 @@
     "蓄力攻击": "Attaque chargée",
     "蓄力攻击伤害": "Dégâts d’attaque chargée",
     "蓄力攻击终结伤害": "Dégâts finaux d’attaque chargée",
+    "蓄力增伤": "Dégâts d’attaque chargée",
     "蓄势": "Accumulation",
     "蓄势待发": "Puissance accumulée",
     "宣叙调": "Recitativo",
@@ -5039,7 +5042,7 @@
     "元祯": "Yuan Zhen",
     "圆舞": "Valse",
     "远程": "Armes à distance",
-    "远程武器造成的伤害暴击后，有概率在目标周围召唤1个[召唤物·触手]，每秒最多触发1次。[召唤物·触手]同时最多存在18个。": "Lorsqu’une arme à distance inflige un DGT CRIT, Tabethe a une chance d’invoquer 1 [Tentacule] près de la cible. Cet effet ne peut se produire qu’une fois par seconde. Un maximum de 18 [Tentacules] peuvent être présents simultanément.",
+    "远程武器造成的伤害暴击后，有概率在目标周围召唤1个[召唤物·触手]，每秒最多触发1次。[召唤物·触手]同时最多存在18个。": "Lorsqu’une arme à distance inflige un coup critique, Tabethe a une chance d’invoquer 1 [Tentacule] près de la cible. Cet effet ne peut se produire qu’une fois par seconde. Un maximum de 18 [Tentacules] peuvent être présents simultanément.",
     "远程武器最大弹药量*{%}": "Munitions max des armes à distance*{%}",
     "远征列兵": "Soldat expéditionnaire",
     "远征列兵机傀I": "Méchapoupée Soldat expéditionnaire I",
@@ -5104,7 +5107,7 @@
     "载具装甲": "Blindage de véhicule",
     "早安，冰湖城": "Bonjour, Givrelac",
     "造成的近战武器伤害暴击时，使目标变为[舞会人偶]，同时自身获得1层[重奏]，最多叠加42层，以此方式在一定时间间隔内最多获得1层[重奏]。\n带有6层及以上的[花刺]时，近战武器的蓄力攻击替换为[终章]。": "Lorsqu’une arme de mêlée inflige un coup critique, la cible devient une [Marionnette du bal], et le personnage obtient 1 cumul de [Reprise], cumulable jusqu’à 42 cumuls. Cet effet ne peut accorder qu’un cumul de [Reprise] après un certain délai.\nLorsque la cible possède au moins 6 cumuls d’[Épine florale], l’attaque chargée de l’arme de mêlée est remplacée par [Finale].",
-    "造成的伤害暴击时，随机获得攻击提高、技能威力提高、背水提高效果中1个。\n基于自身的增益效果的数量，提高造成的伤害，最多计算12个增益效果。": "Lorsqu’elle inflige un DGT CRIT, Psyche obtient aléatoirement l’un des bonus suivants :\n– Attaque augmentée\n– Puissance de compétence augmentée\n– Ténacité renforcée\nElle voit en plus ses dégâts augmenter pour chaque bonus dont elle bénéficie, jusqu’à un total de 12 bonus comptabilisés.",
+    "造成的伤害暴击时，随机获得攻击提高、技能威力提高、背水提高效果中1个。\n基于自身的增益效果的数量，提高造成的伤害，最多计算12个增益效果。": "Lorsqu’elle inflige un coup critique, Psyche obtient aléatoirement l’un des bonus suivants :\n– Attaque augmentée\n– Puissance de compétence augmentée\n– Ténacité renforcée\nElle voit en plus ses dégâts augmenter pour chaque bonus dont elle bénéficie, jusqu’à un total de 12 bonus comptabilisés.",
     "造成的伤害触发额外效果时，额外获得1点连击点数。": "Lorsque des dégâts déclenchent un Effet supplémentaire, gagne 1 point de Combo supplémentaire.",
     "造成的伤害触发额外效果时，获得1层全属性穿透提高3%的效果，持续12秒，最多叠加18层。": "Lorsqu’un Effet supplémentaire est déclenché, obtient 1 cumul de Pénétration +3% pendant 12 s, jusqu’à 18 cumuls.",
     "造成的伤害触发额外效果时，获得一定量的[万钧之势]，最多可以拥有300点[万钧之势]。释放[夺神权柄]和[指尖风暴]时，可以消耗[万钧之势]强化对应技能。": "Lorsque Sibylle déclenche un Effet supplémentaire, elle gagne des points de [Puissance foudroyante], jusqu’à un maximum de 300.\n[Usurpation divine] et [Appel de la tempête] peuvent être renforcés en consommant ces points.",
@@ -5125,7 +5128,7 @@
     "增幅激化器": "Catalyseur d’amplification",
     "增加连击点数": "Augmentation des points de Combo",
     "增加要塞维修人力的申请": "Demande de renfort pour l’entretien de la forteresse",
-    "增伤": "Bonus de dégâts",
+    "增伤": "Dégâts infligés",
     "增速": "Accélération",
     "增益": "Bonus",
     "詹姆斯": "James",
@@ -5297,8 +5300,8 @@
     "朱红泪滴": "Larme vermillon",
     "朱辉散射": "Dispersion cramoisie",
     "朱朴": "Zhu Pu",
-    "珠纹扁扁鲨": "Requin perligrane",
-    "珠纹扁扁鲨·异种": "Requin perligrane variant",
+    "珠纹扁扁鲨": "Raie perligrane",
+    "珠纹扁扁鲨·异种": "Raie perligrane variante",
     "诸葛明": "Zhuge Ming",
     "诸葛陶": "Zhuge Tao",
     "诸星耀时": "Quand brillent les étoiles",
@@ -5462,6 +5465,7 @@
     "坐下": "S’asseoir",
     "坐下看剧": "S’asseoir pour regarder la pièce",
     "abyss-dungeon-detail": {
+        "notFound": "Donjon de l’abîme introuvable",
         "title": "Détail du donjon des Abysses"
     },
     "abyss-dungeon-list": {
@@ -5567,11 +5571,13 @@
         "title": "Administration"
     },
     "ai": {
+        "ai": "IA",
         "commandInputPlaceholder": "Envoyez un message ou saisissez/selectionnez une commande. Le collage ou glisser-deposer d'images est pris en charge.",
         "desc": "Interagissez avec les jeux à l'aide d'agents IA",
         "inputMessage": "Entrez un message, appuyez sur Entrée pour envoyer",
         "mcp_manual_stop_message": "Le serveur MCP doit etre arrete manuellement.\n\nTerminez le processus 'dna_mcp_server.exe' dans le Gestionnaire des taches.\n\nOuvrir le Gestionnaire des taches maintenant ?",
-        "title": "Agent IA"
+        "title": "Agent IA",
+        "user": "Utilisateur"
     },
     "autobuild": {
         "charMods": "MOD de personnage",
@@ -5850,6 +5856,7 @@
         "event_desc": "Voir la liste des événements et les détails des événements",
         "fish": "Pêche",
         "fish_desc": "Calcul détaillé du rendement des points de pêche",
+        "hard_boss": "Écho cauchemar",
         "hardboss": "Restes du Cauchemar",
         "hardboss_desc": "Voir les informations sur les restes du Cauchemar et les récompenses",
         "impr": "",
@@ -5875,6 +5882,7 @@
         "reputation_desc": "Voir les niveaux de réputation régionale et les informations de commission",
         "resource": "Ressource",
         "resource_desc": "Voir les informations et icônes de ressource",
+        "role": "Personnage",
         "shop": "Boutique",
         "shop_desc": "Voir les informations sur les articles de la boutique",
         "solotreasure": "Tournoi de l’Encens",
@@ -5907,6 +5915,25 @@
         "desc": "Informations sur le jeu/Check-in/Parcourir les posts",
         "title": "Jiaojiaojiao"
     },
+    "dna-post": {
+        "browse": "Vues",
+        "cancelFollow": "Ne plus suivre",
+        "comment": "Commentaires",
+        "commentPublished": "Commentaire publié",
+        "commentPublishFailed": "Échec de la publication du commentaire",
+        "commentRequired": "Veuillez saisir un commentaire",
+        "commentsTitle": "{{count}} commentaires",
+        "favorite": "Favoris",
+        "featured": "À la une",
+        "follow": "Suivre",
+        "like": "J’aime",
+        "loadMoreCommentsFailed": "Échec du chargement des commentaires supplémentaires",
+        "loginFirst": "Veuillez vous connecter d’abord",
+        "official": "Officiel",
+        "postDetailFailed": "Échec du chargement des détails du post",
+        "postDetailTitle": "Détails du post",
+        "userAvatar": "Avatar de l’utilisateur"
+    },
     "dna-post-detail": {
         "title": "Détails du post"
     },
@@ -5934,6 +5961,22 @@
     },
     "dna-user": {
         "title": "Informations utilisateur"
+    },
+    "dna-user-mine": {
+        "coins": "Pièces",
+        "comments": "Commentaires",
+        "fans": "Abonnés",
+        "favorites": "Favoris",
+        "follow": "Abonnements",
+        "gameInfoFailed": "Échec du chargement des infos du jeu",
+        "gameInfoTab": "Infos du jeu",
+        "likes": "J’aime reçus",
+        "loginFirst": "Veuillez vous connecter d’abord",
+        "noPosts": "Aucun post pour le moment",
+        "posts": "Posts",
+        "postTab": "Posts",
+        "title": "Profil",
+        "userInfoFailed": "Échec du chargement des infos utilisateur"
     },
     "dna-weapon-detail": {
         "title": "Détails de l'arme"
@@ -6214,6 +6257,10 @@
     "map-local": {
         "title": "Carte"
     },
+    "misc": {
+        "all_files": "Tous les fichiers",
+        "exec_files": "Fichiers exécutables"
+    },
     "mod-detail": {
         "title": "Détails du Wedge du Diable"
     },
@@ -6230,11 +6277,18 @@
         "title": "Liste des monstres"
     },
     "monster-tag-detail": {
+        "meterSuffix": "m",
         "title": "Détails du commandant"
     },
     "more": {
         "desc": "Plus de fonctionnalités",
         "title": "Plus"
+    },
+    "node-editor": {
+        "expressionCalc": {
+            "description": "Évalue une expression personnalisée",
+            "title": "Calcul d’expression"
+        }
     },
     "notfound": {
         "back_home": "Retour à l'accueil",
@@ -6246,6 +6300,7 @@
     "npc-list": {
         "title": "Liste des PNJ"
     },
+    "other": "Autre",
     "partytopic-detail": {
         "title": "Détails des Chroniques"
     },
@@ -6429,6 +6484,7 @@
         "no_output": "Aucune sortie",
         "no_script_selected": "Aucun script selectionne",
         "no_status": "Aucun statut",
+        "no_steps_config_hint": "Aucune étape configurée. Cliquez sur le bouton ci-dessous pour en ajouter une.",
         "online": "En ligne",
         "open_and_run_local_first": "Ouvrez et executez d'abord un script local",
         "open_directory": "Ouvrir le dossier",

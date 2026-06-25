@@ -1,14 +1,15 @@
 <script lang="ts" setup>
 import { useLocalStorage } from "@vueuse/core"
 import { type ComponentPublicInstance, computed, nextTick, onBeforeUnmount, reactive, ref, watch } from "vue"
-import { charMap, LeveledChar } from "@/data"
+import { charMap, LeveledCharHelper } from "@/data"
 import { npcMap } from "@/data/d/npc.data"
 import type { PartyTopic } from "@/data/d/partytopic.data"
-import { type Dialogue, type DialogueOption, getImprType, getRegionType } from "@/data/d/quest.data"
+import { type Dialogue, type DialogueOption } from "@/data/d/quest.data"
 import { questChainMap } from "@/data/d/questchain.data"
 import { resourceMap } from "@/data/d/resource.data"
 import { useSettingStore } from "@/store/setting"
 import { buildDialogueVoiceUrl } from "@/utils/dialogue-voice"
+import { getImprType, getRegionType } from "@/utils/quest-utils"
 import { getRewardDetails } from "@/utils/reward-utils"
 import { replaceStoryPlaceholders, type StoryTextConfig } from "@/utils/story-text"
 
@@ -355,7 +356,7 @@ function getSpeakerAvatar(npcId: number | undefined): string {
     }
 
     if (npc?.charId) {
-        return LeveledChar.idToUrl(npc.charId)
+        return LeveledCharHelper.idToUrl(npc.charId)
     }
 
     if (npc?.name) {
@@ -363,7 +364,7 @@ function getSpeakerAvatar(npcId: number | undefined): string {
             return storyTextConfig.value.gender === "female" ? "/imgs/webp/T_Head_Nvzhu.webp" : "/imgs/webp/T_Head_Nanzhu.webp"
         }
         const charId = charMap.get(npc.name)?.id
-        return LeveledChar.idToUrl(charId || npc.charId)
+        return LeveledCharHelper.idToUrl(charId || npc.charId)
     }
 
     return "/imgs/webp/T_Head_Empty.webp"
@@ -868,7 +869,7 @@ onBeforeUnmount(() => {
         <div class="flex items-center justify-between gap-3">
             <div class="flex items-center gap-3 min-w-0">
                 <img
-                    :src="LeveledChar.idToUrl(partyTopic.charId)"
+                    :src="LeveledCharHelper.idToUrl(partyTopic.charId)"
                     alt=""
                     class="size-10 rounded-lg object-cover bg-base-200"
                     loading="lazy"
@@ -1006,7 +1007,7 @@ onBeforeUnmount(() => {
                         <div class="min-w-0 flex-1 text-xs">
                             <div class="mb-1 flex items-center gap-2">
                                 <div class="font-medium text-primary min-w-0 truncate" v-if="item.dialogue.npc">
-                                    {{ getSpeakerName(item.dialogue.npc) }}
+                                    {{ $t(getSpeakerName(item.dialogue.npc)) }}
                                 </div>
                                 <button
                                     v-if="item.dialogue.voice"

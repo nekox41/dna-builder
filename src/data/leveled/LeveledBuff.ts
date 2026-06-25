@@ -1,8 +1,18 @@
 import type { CharAttr, CharBuild, WeaponAttr } from "../CharBuild"
-import { buffMap } from "../d"
 import type { Buff } from "../data-types"
-import type { LeveledChar, LeveledSkillWeapon, LeveledWeapon } from "."
+import type { LeveledChar } from "./LeveledChar"
+import type { LeveledMonster } from "./LeveledMonster"
+import type { LeveledSkillWeapon } from "./LeveledSkillWeapon"
+import type { LeveledWeapon } from "./LeveledWeapon"
 import { getMinusAttrValue } from "./minusAttr"
+
+export type LeveledBuffResolver = (name: string) => Buff | undefined
+
+let leveledBuffResolver: LeveledBuffResolver | undefined
+
+export function setLeveledBuffResolver(resolver: LeveledBuffResolver) {
+    leveledBuffResolver = resolver
+}
 
 /**
  * 安全归一化动态属性计算结果。
@@ -44,10 +54,9 @@ export class LeveledBuff implements Buff {
      * @param 等级 可选的buff等级
      */
     constructor(名称: string | Buff, 等级?: number) {
-        // 从Map中获取对应的Buff对象
-        const buffData = typeof 名称 === "string" ? buffMap.get(名称) : 名称
+        const buffData = typeof 名称 === "string" ? leveledBuffResolver?.(名称) : 名称
         if (!buffData) {
-            throw new Error(`Buff "${名称}" 未在静态表中找到`)
+            throw new Error(typeof 名称 === "string" ? `Buff "${名称}" 未在静态表中找到` : "Buff 数据不能为空")
         }
 
         // 保存原始Buff对象
@@ -65,6 +74,7 @@ export class LeveledBuff implements Buff {
             this.mx = buffData.mx
             this.dx = buffData.dx ?? buffData.mx
         }
+        if (buffData.技能) this.技能 = buffData.技能
 
         // 设置等级（如果提供），否则使用默认等级dx
         this.等级 = 等级 !== undefined && 等级 >= 0 ? 等级 : this.dx || this.mx || 1
@@ -84,12 +94,14 @@ export class LeveledBuff implements Buff {
      * @param attrs 角色属性
      * @param weapon 武器
      * @param weaponAttrs 武器属性
+     * @param enemy 目标怪物
      */
     applyDynamicAttr(
         char: LeveledChar,
         attrs: CharAttr,
         weapons: (LeveledWeapon | LeveledSkillWeapon | undefined)[],
-        wAttrs?: (WeaponAttr | undefined)[]
+        wAttrs?: (WeaponAttr | undefined)[],
+        enemy?: LeveledMonster
     ): ReturnType<CharBuild["calculateWeaponAttributes"]> {
         const [weapon, meleeWeapon, rangedWeapon, skillWeapon] = weapons
         const [weaponAttr, meleeWeaponAttr, rangedWeaponAttr, skillWeaponAttr] = wAttrs || []
@@ -132,6 +144,7 @@ export class LeveledBuff implements Buff {
             meleeWeaponAttr,
             rangedWeaponAttr,
             skillWeaponAttr,
+            enemy,
         } as any
         const func = new Function("attr", `with(attr){${this.code};return attr}`)
         let result = null
@@ -151,6 +164,7 @@ export class LeveledBuff implements Buff {
                 meleeWeaponAttr,
                 rangedWeaponAttr,
                 skillWeaponAttr,
+                enemy,
                 ...attrs
             } = result
             return { ...attrs, weapon: weaponAttr }
@@ -283,6 +297,7 @@ export class LeveledBuff implements Buff {
     public clone() {
         const buff = new LeveledBuff(this._originalBuffData, this._等级)
         buff.描述 = this.描述
+        buff.ratio = this._ratio
         if (this.pid) buff.pid = this.pid
         if (this.pt) buff.pt = this.pt
         return buff

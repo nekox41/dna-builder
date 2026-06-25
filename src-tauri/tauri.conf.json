@@ -1,12 +1,12 @@
 {
     "$schema": "https://schema.tauri.app/config/2",
     "productName": "DNA Builder",
-    "version": "0.17.6",
+    "version": "1.0.4",
     "identifier": "com.pa.dna-builder",
     "build": {
         "beforeDevCommand": "pnpm dev",
         "devUrl": "http://localhost:1420",
-        "beforeBuildCommand": "pnpm build:all",
+        "beforeBuildCommand": "pnpm build:app",
         "frontendDist": "../dist"
     },
     "app": {

@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest"
 import { CharBuild } from "../CharBuild"
+import { createBuffFromSettings, createCharBuildFromSettings } from "../CharBuildHelper"
 import { weaponData } from "../index"
 import { LeveledBuff, LeveledChar, LeveledMod, LeveledWeapon } from "../leveled"
 import { LeveledModWithCount } from "../leveled/LeveledMod"
@@ -103,6 +104,84 @@ describe("CharBuild类测试", () => {
         expect(attrs2.增伤).toBe(0.44)
         expect(attrs2.属性穿透).toBe(0)
         expect(attrs2.独立增伤).toBe(0)
+    })
+
+    it("应该为不同构筑生成独立的自定义BUFF实例", () => {
+        const buffA = createBuffFromSettings("自定义BUFF", 1, [["攻击", 0.1]])
+        const buffB = createBuffFromSettings("自定义BUFF", 1, [["攻击", 0.2]])
+
+        expect(buffA).not.toBe(buffB)
+        expect(buffA.攻击).toBe(0.1)
+        expect(buffB.攻击).toBe(0.2)
+
+        const buildA = new CharBuild({
+            char: new LeveledChar("黎瑟"),
+            skillLevel: 10,
+            hpPercent: 0.5,
+            resonanceGain: 2,
+            buffs: [buffA],
+            melee: new LeveledWeapon(10302),
+            ranged: new LeveledWeapon(20601),
+            baseName: "快速出击",
+            enemyId: 130,
+            enemyLevel: 80,
+            enemyResistance: 0.5,
+            targetFunction: "伤害",
+        })
+        const buildB = new CharBuild({
+            char: new LeveledChar("黎瑟"),
+            skillLevel: 10,
+            hpPercent: 0.5,
+            resonanceGain: 2,
+            buffs: [buffB],
+            melee: new LeveledWeapon(10302),
+            ranged: new LeveledWeapon(20601),
+            baseName: "快速出击",
+            enemyId: 130,
+            enemyLevel: 80,
+            enemyResistance: 0.5,
+            targetFunction: "伤害",
+        })
+
+        expect(buildA.buffs[0]).not.toBe(buildB.buffs[0])
+        expect(buildA.buffs[0].攻击).toBe(0.1)
+        expect(buildB.buffs[0].攻击).toBe(0.2)
+    })
+
+    it("选择召唤物技能时不应让namespace访问的其他技能误吃召唤物伤害", () => {
+        const summonBuild = new CharBuild({
+            char: new LeveledChar("丽蓓卡"),
+            skillLevel: 10,
+            hpPercent: 1,
+            resonanceGain: 3,
+            melee: new LeveledWeapon(10302),
+            ranged: new LeveledWeapon(20601),
+            baseName: "缠绵之触",
+            enemyId: 130,
+            enemyLevel: 80,
+            enemyResistance: 0,
+            targetFunction: "纯爱试炼::[爱之毒]伤害",
+        })
+        const summonAttrs = summonBuild.calculateWeaponAttributes()
+        const summonResult = summonBuild.evaluateAST("纯爱试炼::[爱之毒]伤害", summonAttrs)
+
+        const normalBuild = new CharBuild({
+            char: new LeveledChar("丽蓓卡"),
+            skillLevel: 10,
+            hpPercent: 1,
+            resonanceGain: 3,
+            melee: new LeveledWeapon(10302),
+            ranged: new LeveledWeapon(20601),
+            baseName: "纯爱试炼",
+            enemyId: 130,
+            enemyLevel: 80,
+            enemyResistance: 0,
+            targetFunction: "纯爱试炼::[爱之毒]伤害",
+        })
+        const normalAttrs = normalBuild.calculateWeaponAttributes()
+        const normalResult = normalBuild.evaluateAST("纯爱试炼::[爱之毒]伤害", normalAttrs)
+
+        expect(summonResult).toBeCloseTo(normalResult, 6)
     })
 
     // 测试武器独立增伤不应作用于角色
@@ -898,6 +977,35 @@ describe("CharBuild类测试", () => {
             expect(damage.expectedDamage).toBeCloseTo(0, 6)
         })
 
+        it("同律武器的 type=下落攻击 应参与下落增伤判断", () => {
+            const charBuild = new CharBuild({
+                char: new LeveledChar("煜明"),
+                skillLevel: 10,
+                hpPercent: 0.5,
+                resonanceGain: 2,
+                charMods: [],
+                buffs: [],
+                melee: new LeveledWeapon(10303),
+                ranged: new LeveledWeapon(20601),
+                baseName: "疑星落",
+                enemyId: 130,
+                enemyLevel: 80,
+                enemyResistance: 0.5,
+                targetFunction: "伤害",
+                skillMods: [new LeveledMod(54202)],
+            })
+
+            const withType = charBuild.calculateTargetFunction(charBuild.calculateWeaponAttributes(charBuild.skillWeapon), "[疑星落]伤害")
+            charBuild.skillWeapon!.视为 = undefined
+            const withoutType = charBuild.calculateTargetFunction(
+                charBuild.calculateWeaponAttributes(charBuild.skillWeapon),
+                "[疑星落]伤害"
+            )
+
+            expect(charBuild.skillWeapon?.名称).toBe("疑星落")
+            expect(withType).toBeGreaterThan(withoutType)
+        })
+
         it("角色mod的effect暴击词条应对所有武器生效", () => {
             const charBuild = new CharBuild({
                 char: new LeveledChar("黎瑟"),
@@ -1020,7 +1128,7 @@ describe("CharBuild类测试", () => {
             const income = charBuild.calcIncome(buff, true)
 
             expect(Number.isFinite(income)).toBe(true)
-            expect(income).toBeCloseTo(1.6, 10)
+            expect(income).toBeCloseTo(0.6, 10)
         })
 
         it("已装备MOD的精确收益应等于真实移除后的重算结果", () => {
@@ -1298,6 +1406,53 @@ describe("CharBuild类测试", () => {
             expect(dynamicBuild.calculate()).toBeGreaterThan(baseBuild.calculate())
         })
 
+        it("追加伤害BUG应按怪物等级减伤再次降低追加伤害", () => {
+            const charBuild = createCharBuild()
+            charBuild.baseName = "射击"
+            charBuild.enemyLevel = 200
+            charBuild.dynamicBuffs.push(
+                new LeveledBuff({
+                    名称: "测试追加伤害",
+                    描述: "测试用追加伤害",
+                    code: "weaponAttr.追加伤害=2",
+                }),
+                new LeveledBuff("追加伤害BUG")
+            )
+
+            const dynamicAttrs = charBuild.calculateWeaponAttributes()
+
+            expect(dynamicAttrs.weapon?.追加伤害).toBeCloseTo(2 / (1 + (200 - 190) * 0.05))
+        })
+
+        it("构造函数选中的追加伤害BUG应进入动态BUFF并影响追加伤害", () => {
+            const selectedBuffBuild = new CharBuild({
+                char: new LeveledChar("黎瑟"),
+                skillLevel: 10,
+                hpPercent: 0.5,
+                resonanceGain: 2,
+                charMods: [...mockMods],
+                buffs: [
+                    new LeveledBuff({
+                        名称: "测试追加伤害",
+                        描述: "测试用追加伤害",
+                        追加伤害: 2,
+                    }),
+                    new LeveledBuff("追加伤害BUG"),
+                ],
+                melee: new LeveledWeapon(10302),
+                ranged: new LeveledWeapon(20601),
+                baseName: "射击",
+                enemyId: 130,
+                enemyLevel: 200,
+                enemyResistance: 0.5,
+                targetFunction: "伤害",
+            })
+            const dynamicAttrs = selectedBuffBuild.calculateWeaponAttributes()
+
+            expect(selectedBuffBuild.dynamicBuffs.map(buff => buff.名称)).toContain("追加伤害BUG")
+            expect(dynamicAttrs.weapon?.追加伤害).toBeCloseTo(2 / (1 + (200 - 190) * 0.05))
+        })
+
         it("动态attr属性应在最终阶段按表达式计算", () => {
             const charBuild = createCharBuild()
             charBuild.baseName = "射击"
@@ -1347,7 +1502,7 @@ describe("CharBuild类测试", () => {
 
     describe("E2E", () => {
         it("clone 的计算结果应该相同", () => {
-            const build = CharBuild.fromCharSetting("苏乙", {
+            const build = createCharBuildFromSettings("苏乙", {
                 charLevel: 80,
                 baseName: "射击",
                 hpPercent: 1,

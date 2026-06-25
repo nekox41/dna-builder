@@ -116,8 +116,8 @@
     "“迷津”中，累计击败60名号令者": "Defeat a total of 60 Primanders in \"Mystic Maze\"",
     "“迷津”中，累计进入[奇遇]12次": "Entered [Encounter] 12 times in \"Mystic Maze\"",
     "“迷津”中，累计进入[奇遇]1次": "Entered [Encounter] 1 times in \"Mystic Maze\"",
-    "“迷津”中，累计进入[战斗·离散幽影]12次": "Entered [Combat · Scattered Abyssoid] 12 times in \"Mystic Maze\"",
-    "“迷津”中，累计进入[战斗·离散幽影]1次": "Entered [Combat · Scattered Abyssoid] 1 times in \"Mystic Maze\"",
+    "“迷津”中，累计进入[战斗·离散幽影]12次": "Entered [Scattered Abyssoid] 12 times in \"Mystic Maze\"",
+    "“迷津”中，累计进入[战斗·离散幽影]1次": "Entered [Scattered Abyssoid] 1 times in \"Mystic Maze\"",
     "“迷津”中，累计造成50000点治疗": "Restore a total of 50000 points of HP in \"Mystic Maze\"",
     "“迷津”中，远程武器单次造成的伤害达到10000点": "Deal 10000 points of damage in one action with any ranged weapon in \"Mystic Maze\"",
     "“铭刻时光的”称号": "Title: Timeless",
@@ -2103,7 +2103,7 @@
     "集齐百花车站所有遗落的纸张": "Collect all Lost Sheets in Bloomfield Station",
     "集齐冰湖城周边所有遗落的纸张": "Collect all Lost Sheets around Icelake",
     "集齐冰湖城周边所有银烛狂欢颂歌的十个章节": "Collect all ten chapters of the Silvercandle Hymn within Icelake Environs",
-    "集齐盖雷亚剧院所有《红叶反讨秘话》的四个章节": "Collect all four chapters of Redleaf: A Chronicle of Rebellion within Galea Theatre",
+    "集齐盖雷亚剧院所有《红叶反讨秘话》的四个章节": "Collect all four chapters of Momiji: A Chronicle of Rebellion within Galea Theatre",
     "集齐皓京所有遗落的纸张": "Collect all Lost Sheets in Haojing",
     "集齐净界岛所有遗落的纸张": "Collect all Lost Sheets in Purgatorio Island",
     "集齐净界岛遗迹中所有散落的日记": "Collect all Scattered Diaries in Purgatorio Island - Ruins",
@@ -2128,7 +2128,7 @@
     "技能范围": "Skill Range",
     "技能开启剑气伤害": "Skill DMG",
     "技能耐久": "Skill Duration",
-    "技能伤害": "Skill DMG",
+    "技能伤害": "Skill DMG Dealt",
     "技能伤害提高": "Skill DMG Boost",
     "技能伤害提高效果持续时间": "Skill DMG Boost Duration",
     "技能释放伤害": "Skill DMG",
@@ -3296,6 +3296,7 @@
     "扑棱鱼": "Flutterfin",
     "扑棱鱼·异种": "Flutterfin Variant",
     "匍地枝": "Creeping Tendrils",
+    "普攻增伤": "Normal Attack DMG",
     "普奇": "Putsch",
     "普通一脚·迷津": "Just a Kick: Mystic Maze",
     "普通一脚Ⅰ": "Standard Kick Ⅰ",
@@ -4428,6 +4429,7 @@
     "隙中花": "Crackbloom",
     "下落攻击": "Plunging Attack",
     "下落攻击伤害": "Plunge DMG",
+    "下落增伤": "Plunge DMG",
     "下水道的枯木": "Dead Wood in the Sewers",
     "下水道的幽灵": "Phantom in the Gutter",
     "下水道嘉年华": "Sewer Carnival",
@@ -4637,6 +4639,7 @@
     "蓄力攻击": "Charged Attack",
     "蓄力攻击伤害": "Charged Attack DMG",
     "蓄力攻击终结伤害": "Charged Attack Finisher DMG",
+    "蓄力增伤": "Charged Attack DMG",
     "蓄势": "Momentum",
     "蓄势待发": "Poised to Strike",
     "宣叙调": "Recitativo",
@@ -5125,7 +5128,7 @@
     "增幅激化器": "Amplification Stimulator",
     "增加连击点数": "Combo Point Increase",
     "增加要塞维修人力的申请": "Request for Additional Maintenance Manpower",
-    "增伤": "Damage Boost",
+    "增伤": "Damage Dealt",
     "增速": "Speed Boost",
     "增益": "Buff",
     "詹姆斯": "James",
@@ -5462,6 +5465,7 @@
     "坐下": "Sit",
     "坐下看剧": "Take a Seat for the Show",
     "abyss-dungeon-detail": {
+        "notFound": "Abyss dungeon not found",
         "title": "Abyss Dungeon Detail"
     },
     "abyss-dungeon-list": {
@@ -5567,11 +5571,13 @@
         "title": "Admin"
     },
     "ai": {
+        "ai": "AI",
         "commandInputPlaceholder": "Send a message or enter/select a command. Paste or drag images is supported.",
         "desc": "Interact with games using AI agents",
         "inputMessage": "Enter message, press Enter to send",
         "mcp_manual_stop_message": "The MCP server must be terminated manually.\n\nEnd the 'dna_mcp_server.exe' process in Task Manager.\n\nOpen Task Manager now?",
-        "title": "AI Agent"
+        "title": "AI Agent",
+        "user": "User"
     },
     "autobuild": {
         "charMods": "Character MOD",
@@ -5818,6 +5824,7 @@
         "fish_desc": "Detailed fishing spot yield calculation",
         "forge": "Calamity Weapons",
         "forge_desc": "Calamity weapon smelting levels and quests",
+        "hard_boss": "Nightmare Echo",
         "hardboss": "Nightmare Remnants",
         "hardboss_desc": "View nightmare remnant information and rewards",
         "impr": "Impression",
@@ -5843,6 +5850,7 @@
         "reputation_desc": "View regional reputation levels and commission details",
         "resource": "Resource",
         "resource_desc": "View resource information and icons",
+        "role": "Character",
         "shop": "Shop",
         "shop_desc": "View shop item information",
         "solotreasure": "Incense Proving",
@@ -5875,6 +5883,25 @@
         "desc": "Game Information/Check-in/Browse Posts",
         "title": "Jiaojiaojiao"
     },
+    "dna-post": {
+        "browse": "Views",
+        "cancelFollow": "Unfollow",
+        "comment": "Comments",
+        "commentPublished": "Comment published",
+        "commentPublishFailed": "Failed to publish comment",
+        "commentRequired": "Please enter a comment",
+        "commentsTitle": "{{count}} Comments",
+        "favorite": "Favorites",
+        "featured": "Featured",
+        "follow": "Follow",
+        "like": "Likes",
+        "loadMoreCommentsFailed": "Failed to load more comments",
+        "loginFirst": "Please log in first",
+        "official": "Official",
+        "postDetailFailed": "Failed to load post details",
+        "postDetailTitle": "Post Details",
+        "userAvatar": "User avatar"
+    },
     "dna-post-detail": {
         "title": "Post Details"
     },
@@ -5902,6 +5929,22 @@
     },
     "dna-user": {
         "title": "User Information"
+    },
+    "dna-user-mine": {
+        "coins": "Coins",
+        "comments": "Comments",
+        "fans": "Fans",
+        "favorites": "Favorites",
+        "follow": "Following",
+        "gameInfoFailed": "Failed to load game info",
+        "gameInfoTab": "Game Info",
+        "likes": "Likes",
+        "loginFirst": "Please log in first",
+        "noPosts": "No posts yet",
+        "posts": "Posts",
+        "postTab": "Posts",
+        "title": "Profile",
+        "userInfoFailed": "Failed to load user info"
     },
     "dna-weapon-detail": {
         "title": "Weapon Details"
@@ -6185,6 +6228,10 @@
     "map-local": {
         "title": "Map"
     },
+    "misc": {
+        "all_files": "All files",
+        "exec_files": "Executable files"
+    },
     "mod-detail": {
         "title": "Devil's Wedge details"
     },
@@ -6201,11 +6248,18 @@
         "title": "Monster list"
     },
     "monster-tag-detail": {
+        "meterSuffix": "m",
         "title": "Commander Details"
     },
     "more": {
         "desc": "More features",
         "title": "More"
+    },
+    "node-editor": {
+        "expressionCalc": {
+            "description": "Evaluate a custom expression",
+            "title": "Expression Calc"
+        }
     },
     "notfound": {
         "back_home": "Back to Home",
@@ -6217,6 +6271,7 @@
     "npc-list": {
         "title": "NPC List"
     },
+    "other": "Other",
     "partytopic-detail": {
         "title": "Party Topic Details"
     },
@@ -6401,6 +6456,7 @@
         "no_output": "No output",
         "no_script_selected": "No script selected",
         "no_status": "No status",
+        "no_steps_config_hint": "No steps configured yet. Click the button below to add one.",
         "online": "Online",
         "open_and_run_local_first": "Open and run a local script first",
         "open_directory": "Open directory",

@@ -1,3 +1,5 @@
+import type { Faction } from "../game-const"
+
 export interface Monster {
     id: number
     n: string
@@ -13,19 +15,10 @@ export interface Monster {
     tags?: string[]
 }
 
-export enum Faction {
-    其他 = 0,
-    秽兽 = 1,
-    海伯利亚帝国 = 2,
-    神弃者同盟 = 3,
-    艾利西安传颂会 = 4,
-    华胥 = 5,
-}
-
 export interface DynamicMonster extends Monster {
     currentHP: number
     currentShield: number
-    currentWarPose: number
+    currentTN: number
 }
 
 const mock: Monster[] = [

@@ -2031,7 +2031,7 @@
     "技能范围": "技能範圍",
     "技能开启剑气伤害": "技能開啟劍氣傷害",
     "技能耐久": "技能耐久",
-    "技能伤害": "技能傷害",
+    "技能伤害": "造成技能傷害",
     "技能伤害提高": "技能傷害提高",
     "技能伤害提高效果持续时间": "技能傷害提高效果持續時間",
     "技能释放伤害": "技能釋放傷害",
@@ -3189,6 +3189,7 @@
     "扑棱鱼": "撲棱魚",
     "扑棱鱼·异种": "撲棱魚·異種",
     "匍地枝": "匍地枝",
+    "普攻增伤": "普通攻擊傷害",
     "普奇": "普奇",
     "普通一脚·迷津": "普通一腳·迷津",
     "普通一脚Ⅰ": "普通一腳Ⅰ",
@@ -4302,6 +4303,7 @@
     "隙中花": "隙中花",
     "下落攻击": "下落攻擊",
     "下落攻击伤害": "下落攻擊傷害",
+    "下落增伤": "下落攻擊傷害",
     "下水道的枯木": "下水道的枯木",
     "下水道的幽灵": "下水道的幽靈",
     "下水道嘉年华": "下水道嘉年華",
@@ -4506,6 +4508,7 @@
     "蓄力攻击": "蓄力攻擊",
     "蓄力攻击伤害": "蓄力攻擊傷害",
     "蓄力攻击终结伤害": "蓄力攻擊終結傷害",
+    "蓄力增伤": "蓄力攻擊傷害",
     "蓄势": "蓄勢",
     "蓄势待发": "蓄勢待發",
     "宣叙调": "宣敘調",
@@ -4988,7 +4991,7 @@
     "增幅激化器": "增幅激化器",
     "增加连击点数": "增加連擊點數",
     "增加要塞维修人力的申请": "增加要塞維修人力的申請",
-    "增伤": "增傷",
+    "增伤": "造成的傷害",
     "增速": "增速",
     "詹姆斯": "詹姆斯",
     "斩草除根": "斬草除根",
@@ -5318,6 +5321,7 @@
     "坐下": "坐下",
     "坐下看剧": "坐下看劇",
     "abyss-dungeon-detail": {
+        "notFound": "未找到該深淵副本",
         "title": "深淵詳情"
     },
     "abyss-dungeon-list": {
@@ -5420,11 +5424,13 @@
         "title": "後台"
     },
     "ai": {
+        "ai": "AI",
         "commandInputPlaceholder": "發送訊息或輸入/選擇指令，支援貼上或拖拽圖片",
         "desc": "使用AI智能體與遊戲互動",
         "inputMessage": "輸入訊息，按 Enter 發送",
         "mcp_manual_stop_message": "MCP 伺服器需要手動結束程序。\n\n請在工作管理員中結束 'dna_mcp_server.exe' 程序。\n\n是否打開工作管理員？",
-        "title": "AI智能體"
+        "title": "AI智能體",
+        "user": "使用者"
     },
     "autobuild": {
         "charMods": "角色MOD",
@@ -5671,6 +5677,7 @@
         "fish_desc": "釣魚點詳細收益計算",
         "forge": "災厄武器",
         "forge_desc": "災厄武器熔煉等級與任務",
+        "hard_boss": "夢魘殘聲",
         "hardboss": "夢魘殘聲",
         "hardboss_desc": "查看夢魘殘聲信息和獎勵",
         "impr": "印象",
@@ -5696,6 +5703,7 @@
         "reputation_desc": "查看區域聲名等級與委託資訊",
         "resource": "資源",
         "resource_desc": "查看資源資訊和圖標",
+        "role": "角色",
         "shop": "商店",
         "shop_desc": "查看商店物品資訊",
         "solotreasure": "奉香群英試",
@@ -5728,6 +5736,25 @@
         "desc": "遊戲資訊/簽到/瀏覽帖子",
         "title": "皎皎角"
     },
+    "dna-post": {
+        "browse": "瀏覽",
+        "cancelFollow": "取消追蹤",
+        "comment": "評論",
+        "commentPublished": "評論已發布",
+        "commentPublishFailed": "發布評論失敗",
+        "commentRequired": "請輸入評論內容",
+        "commentsTitle": "評論 {{count}}",
+        "favorite": "收藏",
+        "featured": "精選",
+        "follow": "追蹤",
+        "like": "點讚",
+        "loadMoreCommentsFailed": "載入更多評論失敗",
+        "loginFirst": "請先登入",
+        "official": "官方",
+        "postDetailFailed": "取得帖子詳情失敗",
+        "postDetailTitle": "帖子詳情",
+        "userAvatar": "使用者頭像"
+    },
     "dna-post-detail": {
         "title": "帖子詳情"
     },
@@ -5755,6 +5782,22 @@
     },
     "dna-user": {
         "title": "用戶資訊"
+    },
+    "dna-user-mine": {
+        "coins": "金幣",
+        "comments": "評論",
+        "fans": "粉絲",
+        "favorites": "收藏",
+        "follow": "關注",
+        "gameInfoFailed": "取得遊戲資訊失敗",
+        "gameInfoTab": "遊戲資訊",
+        "likes": "獲讚",
+        "loginFirst": "請先登入",
+        "noPosts": "暫無帖子",
+        "posts": "帖子",
+        "postTab": "帖子",
+        "title": "個人主頁",
+        "userInfoFailed": "取得使用者資訊失敗"
     },
     "dna-weapon-detail": {
         "title": "武器詳情"
@@ -6035,6 +6078,10 @@
     "map-local": {
         "title": "地圖"
     },
+    "misc": {
+        "all_files": "所有檔案",
+        "exec_files": "可執行檔"
+    },
     "mod-detail": {
         "title": "魔之楔詳情"
     },
@@ -6051,11 +6098,18 @@
         "title": "怪物列表"
     },
     "monster-tag-detail": {
+        "meterSuffix": "公尺",
         "title": "號令者詳情"
     },
     "more": {
         "desc": "更多功能",
         "title": "更多"
+    },
+    "node-editor": {
+        "expressionCalc": {
+            "description": "計算自訂運算式的值",
+            "title": "運算式計算"
+        }
     },
     "notfound": {
         "back_home": "返回首頁",
@@ -6067,6 +6121,7 @@
     "npc-list": {
         "title": "NPC列表"
     },
+    "other": "其他",
     "partytopic-detail": {
         "title": "光陰集詳情"
     },
@@ -6251,6 +6306,7 @@
         "no_output": "暫無輸出",
         "no_script_selected": "未選擇腳本",
         "no_status": "暫無狀態",
+        "no_steps_config_hint": "尚未設定任何步驟，點擊下方按鈕新增",
         "online": "雲端",
         "open_and_run_local_first": "請先打開並執行本地腳本",
         "open_directory": "打開目錄",

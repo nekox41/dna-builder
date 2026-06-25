@@ -105,7 +105,6 @@ export const useGameStore = defineStore("game", {
     state: () => {
         return {
             dx11Enable: useLocalStorage("game.dx11_enable", false),
-            noTitlebar: useLocalStorage("game.no_titlebar", false),
             modEnable: useLocalStorage("game.mod_enable", false),
             modLoader: useLocalStorage("game.mod_loader", "legacy"),
             pathEnable: useLocalStorage("game.path_enable", true),
@@ -134,7 +133,15 @@ export const useGameStore = defineStore("game", {
     },
     actions: {
         async refreshGameInstalled() {
-            this.installed = !!this.path && (await pathExists(this.path))
+            if (!this.path) {
+                this.installed = false
+                return
+            }
+            const gameDir = this.path.replace(/EM\.exe$/, "")
+            this.installed =
+                (await pathExists(this.path)) &&
+                (await pathExists(`${gameDir}BaseVersion.json`)) &&
+                !(await pathExists(`${gameDir}.extracting`))
         },
         async launchGame() {
             if (Date.now() > this.lastLaunch && Date.now() - this.lastLaunch < 1000) {

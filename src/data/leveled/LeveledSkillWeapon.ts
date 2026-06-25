@@ -1,5 +1,6 @@
 import type { DmgType, SkillWeapon } from "../data-types"
-import { CommonLevelUp, LeveledSkill } from "."
+import { CommonLevelUp } from "./CommonLevelUp"
+import { LeveledSkill } from "./LeveledSkill"
 
 /**
  * LeveledSkillWeapon类 - 继承Weapon接口，添加等级和技能等级和动态属性计算
@@ -26,6 +27,7 @@ export class LeveledSkillWeapon {
     技能?: LeveledSkill[]
     inherit?: "melee" | "ranged"
     atk?: "melee" | "ranged" | "all"
+    视为?: string
 
     // 等级和精炼属性
     _等级: number = 80 // 武器等级，默认80级
@@ -50,6 +52,7 @@ export class LeveledSkillWeapon {
         this.id = weaponData.id
         this.名称 = weaponData.名称
         this.类型 = weaponData.类型[0] + weaponData.类型[1]
+        this.视为 = weaponData.视为
         this.类别 = weaponData.类型[2]
         this.伤害类型 = weaponData.伤害类型 || "切割"
         this.基础攻击 = weaponData.攻击 || 0

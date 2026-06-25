@@ -156,6 +156,50 @@ describe("DynamicBuff", () => {
         expect(attrs.技能威力).toBe(2)
         expect(attrs.技能范围).toBe(1)
     })
+
+    it("applyDynamicAttr supports enemy context", () => {
+        const buff = new LeveledBuff({
+            名称: "测试目标怪物动态属性",
+            描述: "测试用动态属性",
+            code: "技能威力+=enemy.等级/100",
+        })
+        const char = new LeveledChar("妮弗尔夫人")
+        const enemy = new LeveledMonster(130, 200)
+        let attrs: CharAttr = {
+            攻击: 1,
+            生命: 1,
+            护盾: 1,
+            防御: 1,
+            神智: 1,
+            技能威力: 1,
+            技能耐久: 1,
+            技能效益: 1,
+            技能范围: 1,
+            昂扬: 1,
+            背水: 1,
+            增伤: 1,
+            武器伤害: 1,
+            技能伤害: 1,
+            独立增伤: 1,
+            属性穿透: 1,
+            无视防御: 1,
+            技能无视防御: 1,
+            技能速度: 1,
+            失衡易伤: 1,
+            技能倍率加数: 1,
+            召唤物攻击速度: 1,
+            召唤物范围: 1,
+            召唤物伤害: 1,
+            减伤: 1,
+            技能倍率赋值: 0,
+            技能倍率乘数: 1,
+            有效生命: 1,
+        }
+
+        attrs = buff.applyDynamicAttr(char, attrs, [], undefined, enemy)
+
+        expect(attrs.技能威力).toBe(3)
+    })
 })
 // 测试LeveledBuff类
 describe("LeveledBuff类测试", () => {
@@ -185,6 +229,14 @@ describe("LeveledBuff类测试", () => {
 
         expect((助战50攻1级 as any).攻击).toBe(0.5)
         expect((助战50攻2级 as any).攻击).toBe(1.0)
+    })
+
+    it("Buff克隆后应保留动态倍率", () => {
+        const 助战50攻2级 = new LeveledBuff("助战50攻", 2)
+        const cloned = 助战50攻2级.clone()
+
+        expect(cloned.ratio).toBeCloseTo(助战50攻2级.ratio, 10)
+        expect((cloned as any).攻击).toBeCloseTo((助战50攻2级 as any).攻击, 10)
     })
 
     // 测试4：设置超出上限的等级（应该被限制在mx）

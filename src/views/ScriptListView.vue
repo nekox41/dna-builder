@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { listen, type UnlistenFn } from "@tauri-apps/api/event"
-import { register, unregisterAll } from "@tauri-apps/plugin-global-shortcut"
+import { register, unregister } from "@tauri-apps/plugin-global-shortcut"
 import { t } from "i18next"
 import { debounce } from "lodash-es"
 import { computed, nextTick, onMounted, onUnmounted, ref, watch } from "vue"
@@ -83,6 +83,7 @@ async function main() {
 main()
 `
 const newScriptContent = ref(DEFAULT_SCRIPT_CONTENT)
+const SCRIPT_LIST_GLOBAL_SHORTCUT_STORAGE_KEY = "script-list-global-shortcut-enabled"
 
 const categoryOptions = computed(() => [
     { value: "all", label: "全部" },
@@ -358,6 +359,7 @@ const editingHotkeyScriptName = ref("")
 const editingHotkeyValue = ref("")
 const editingHotkeyWinActive = ref("")
 const editingHotkeyHoldToLoop = ref(false)
+const editingHotkeyToggleToLoop = ref(false)
 let scriptRuntimeWatchdogTimer: ReturnType<typeof setInterval> | null = null
 let lastScriptEventAt = 0
 let scriptRuntimeRestartingByTimeout = false
@@ -1048,9 +1050,32 @@ function openScriptHotkeyDialog(scriptName: string) {
     editingHotkeyValue.value = existing?.hotkey ?? ""
     editingHotkeyWinActive.value = existing?.hotIfWinActive ?? ""
     editingHotkeyHoldToLoop.value = existing?.holdToLoop ?? false
+    editingHotkeyToggleToLoop.value = existing?.toggleToLoop ?? false
     useHotkeyRecorder.value = true
     useGameWinActive.value = editingHotkeyWinActive.value === "ahk_exe EM-Win64-Shipping.exe"
     showScriptHotkeyDialog.value = true
+}
+
+/**
+ * 切换“按住循环”状态，并保持与“切换循环”互斥。
+ * @param value 是否启用按住循环
+ */
+function setEditingHotkeyHoldToLoop(value: boolean) {
+    editingHotkeyHoldToLoop.value = value
+    if (value) {
+        editingHotkeyToggleToLoop.value = false
+    }
+}
+
+/**
+ * 切换“切换循环”状态，并保持与“按住循环”互斥。
+ * @param value 是否启用切换循环
+ */
+function setEditingHotkeyToggleToLoop(value: boolean) {
+    editingHotkeyToggleToLoop.value = value
+    if (value) {
+        editingHotkeyHoldToLoop.value = false
+    }
 }
 
 /**
@@ -1092,6 +1117,7 @@ async function saveScriptHotkeyBinding() {
                 hotkey,
                 hotIfWinActive: String(editingHotkeyWinActive.value ?? "").trim(),
                 holdToLoop: Boolean(editingHotkeyHoldToLoop.value),
+                toggleToLoop: Boolean(editingHotkeyToggleToLoop.value),
                 enabled: scriptRuntime.scriptHotkeyStore[scriptName]?.enabled ?? true,
             },
             localScripts.value,
@@ -2329,7 +2355,7 @@ async function runCurrentTab() {
     }
 }
 
-function openNewScriptDialog() {
+function resetNewScriptDialog() {
     newScriptName.value = ""
     newScriptContent.value = DEFAULT_SCRIPT_CONTENT
     showNewScriptDialog.value = true
@@ -2353,6 +2379,43 @@ async function createNewScript() {
     } catch (error) {
         console.error("创建脚本失败", error)
         ui.showErrorMessage(t("script-list.create_script_failed"))
+    }
+}
+
+/**
+ * 打开新建脚本弹窗并预填内容。
+ * @param scriptName 默认脚本名
+ * @param scriptContent 默认脚本内容
+ */
+function openNewScriptDialog(scriptName = "", scriptContent = DEFAULT_SCRIPT_CONTENT) {
+    newScriptName.value = scriptName
+    newScriptContent.value = scriptContent
+    showNewScriptDialog.value = true
+}
+
+/**
+ * 分叉当前本地脚本。
+ * @param fileName 原脚本文件名
+ */
+async function forkScript(fileName: string) {
+    try {
+        const content = await loadLocalScriptContent(fileName)
+        if (!content) {
+            throw new Error("读取脚本内容失败")
+        }
+        const header = parseScriptHeader(content)
+        const forkedContent = replaceScriptHeader(content, {
+            id: "-",
+            name: header.name ?? fileName.replace(/\.js$/, ""),
+            desc: header.desc,
+            author: header.author,
+            version: header.version,
+            category: header.category,
+        })
+        openNewScriptDialog(`${fileName.replace(/\.js$/, "")}-fork`, forkedContent)
+    } catch (error) {
+        console.error("分叉脚本失败", error)
+        ui.showErrorMessage("分叉脚本失败")
     }
 }
 
@@ -3273,7 +3336,47 @@ async function restartAsAdmin() {
 /**
  * 全局快捷键状态
  */
-const globalShortcutEnabled = ref(false)
+const globalShortcutEnabled = ref(localStorage.getItem(SCRIPT_LIST_GLOBAL_SHORTCUT_STORAGE_KEY) === "true")
+
+/**
+ * 持久化脚本列表 F10 全局快捷键状态。
+ * @param enabled 是否启用全局快捷键
+ */
+function persistGlobalShortcutEnabled(enabled: boolean) {
+    localStorage.setItem(SCRIPT_LIST_GLOBAL_SHORTCUT_STORAGE_KEY, enabled ? "true" : "false")
+}
+
+/**
+ * 注册脚本列表 F10 全局快捷键。
+ */
+async function registerScriptListGlobalShortcut() {
+    await register("F10", e => {
+        if (e.state === "Pressed") {
+            // 当按下 F10 时，运行当前脚本
+            runCurrentTab()
+        }
+    })
+}
+
+/**
+ * 注销脚本列表 F10 全局快捷键。
+ */
+async function unregisterScriptListGlobalShortcut() {
+    try {
+        await unregister("F10")
+    } catch (error) {
+        console.warn("注销脚本列表全局快捷键失败", error)
+    }
+}
+
+/**
+ * 按本地持久状态同步脚本列表 F10 全局快捷键。
+ */
+async function syncScriptListGlobalShortcut() {
+    await unregisterScriptListGlobalShortcut()
+    if (!globalShortcutEnabled.value) return
+    await registerScriptListGlobalShortcut()
+}
 
 /**
  * 切换全局快捷键状态
@@ -3282,18 +3385,15 @@ async function toggleGlobalShortcut() {
     try {
         if (globalShortcutEnabled.value) {
             // 禁用快捷键
-            await unregisterAll()
+            await unregisterScriptListGlobalShortcut()
             globalShortcutEnabled.value = false
+            persistGlobalShortcutEnabled(false)
             ui.showSuccessMessage(t("script-list.global_shortcut_disabled"))
         } else {
             // 启用快捷键
-            await register("F10", e => {
-                if (e.state === "Pressed") {
-                    // 当按下 F10 时，运行当前脚本
-                    runCurrentTab()
-                }
-            })
+            await registerScriptListGlobalShortcut()
             globalShortcutEnabled.value = true
+            persistGlobalShortcutEnabled(true)
             ui.showSuccessMessage(t("script-list.global_shortcut_enabled"))
         }
     } catch (error) {
@@ -3374,6 +3474,7 @@ onMounted(async () => {
     loadScriptMcpPortConfig()
     loadScriptConfigItems()
     scriptRuntime.loadScriptHotkeys()
+    await syncScriptListGlobalShortcut()
     await fetchLocalScripts()
     document.addEventListener("keydown", handleKeyDown)
     await initFileChangeListener()
@@ -3402,8 +3503,7 @@ onUnmounted(async () => {
     // 停止所有文件监听
     const stopPromises = Array.from(watchedFiles.value).map(fileName => stopWatchingFile(fileName))
     await Promise.all(stopPromises)
-    // 注销所有全局快捷键
-    await unregisterAll()
+    await unregisterScriptListGlobalShortcut()
 })
 </script>
 
@@ -3506,7 +3606,7 @@ onUnmounted(async () => {
                                     <ContextMenu
                                         v-for="script in localScripts"
                                         :key="script"
-                                        class="px-3 py-2 rounded hover:bg-base-200 cursor-pointer flex items-center gap-2 text-sm group"
+                                        class="relative px-3 py-2 rounded hover:bg-base-200 cursor-pointer flex items-center gap-2 text-sm group"
                                         :class="{ 'bg-base-200': activeTab?.name === script }"
                                         @click="openLocalScript(script)"
                                     >
@@ -3518,7 +3618,18 @@ onUnmounted(async () => {
                                         >
                                             <span class="w-3 h-3 bg-error rounded-xs" />
                                         </button>
-                                        <Icon v-else icon="ri:file-line" class="w-4 h-4 shrink-0" />
+                                        <button
+                                            v-else
+                                            class="w-4 h-4 shrink-0 flex items-center justify-center cursor-pointer relative"
+                                            :title="$t('script-list.run_script')"
+                                            @click.stop="runLocalScriptByName(script)"
+                                        >
+                                            <Icon icon="ri:file-line" class="w-4 h-4 transition-opacity group-hover:opacity-0" />
+                                            <Icon
+                                                icon="ri:play-line"
+                                                class="absolute inset-0 w-4 h-4 opacity-0 transition-opacity group-hover:opacity-100 text-success"
+                                            />
+                                        </button>
                                         <div v-if="editingScript !== script" class="flex-1 min-w-0 flex items-center gap-2">
                                             <span class="truncate">{{ script }}</span>
                                             <span
@@ -3541,7 +3652,7 @@ onUnmounted(async () => {
                                         <template #menu>
                                             <ContextMenuItem
                                                 class="text-sm p-2 leading-none text-base-content rounded flex items-center relative select-none outline-none data-highlighted:bg-primary data-highlighted:text-base-100"
-                                                @click="openNewScriptDialog"
+                                                @click="resetNewScriptDialog"
                                             >
                                                 <Icon icon="ri:add-line" class="w-4 h-4 mr-2" />
                                                 {{ $t("script-list.new_script") }}
@@ -3559,6 +3670,13 @@ onUnmounted(async () => {
                                             >
                                                 <Icon icon="ri:edit-line" class="w-4 h-4 mr-2" />
                                                 {{ $t("char-build.rename") }}
+                                            </ContextMenuItem>
+                                            <ContextMenuItem
+                                                class="text-sm p-2 leading-none text-base-content rounded flex items-center relative select-none outline-none data-highlighted:bg-primary data-highlighted:text-base-100"
+                                                @click="forkScript(script)"
+                                            >
+                                                <Icon icon="ri:git-branch-line" class="w-4 h-4 mr-2" />
+                                                Fork
                                             </ContextMenuItem>
                                             <ContextMenuItem
                                                 class="text-sm p-2 leading-none text-base-content rounded flex items-center relative select-none outline-none data-highlighted:bg-primary data-highlighted:text-base-100"
@@ -3667,7 +3785,7 @@ onUnmounted(async () => {
                     <template v-if="viewMode === 'local'" #menu>
                         <ContextMenuItem
                             class="text-sm p-2 leading-none text-base-content rounded flex items-center relative select-none outline-none data-highlighted:bg-primary data-highlighted:text-base-100"
-                            @click="openNewScriptDialog"
+                            @click="resetNewScriptDialog"
                         >
                             <Icon icon="ri:add-line" class="w-4 h-4 mr-2" />
                             {{ $t("script-list.new_script") }}
@@ -4244,8 +4362,22 @@ onUnmounted(async () => {
                         />
                     </div>
                     <label class="label cursor-pointer justify-start gap-3">
-                        <input v-model="editingHotkeyHoldToLoop" type="checkbox" class="checkbox checkbox-sm" />
+                        <input
+                            :checked="editingHotkeyHoldToLoop"
+                            type="checkbox"
+                            class="checkbox checkbox-sm"
+                            @change="setEditingHotkeyHoldToLoop(($event.target as HTMLInputElement).checked)"
+                        />
                         <span class="label-text text-sm">{{ $t("script-list.hold_to_loop") }}</span>
+                    </label>
+                    <label class="label cursor-pointer justify-start gap-3">
+                        <input
+                            :checked="editingHotkeyToggleToLoop"
+                            type="checkbox"
+                            class="checkbox checkbox-sm"
+                            @change="setEditingHotkeyToggleToLoop(($event.target as HTMLInputElement).checked)"
+                        />
+                        <span class="label-text text-sm">切换循环</span>
                     </label>
                     <div class="text-xs text-base-content/60 select-text">
                         {{ $t("script-list.hotkey_help") }}

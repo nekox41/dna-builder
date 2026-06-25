@@ -2,10 +2,10 @@
 import { computed, ref, watch } from "vue"
 import { useSearchParam } from "@/composables/useSearchParam"
 import type { Dungeon, RewardChild } from "@/data"
-import { ironSurvivalData, LeveledChar, LeveledMonster, MonsterLevelUpperLimit, rewardMap } from "@/data"
+import { ironSurvivalData, LeveledChar, LeveledMonsterHelper, MonsterLevelUpperLimit, rewardMap } from "@/data"
 import { IronSurvivalMonsterLevelLimit } from "@/data/d/const.data"
 import { getDungeonType } from "@/utils/dungeon-utils"
-import { getDropModeText, getRewardDetails, RewardItem as RewardItemType } from "@/utils/reward-utils"
+import { getRewardDetails, RewardItem as RewardItemType } from "@/utils/reward-utils"
 
 const props = defineProps<{
     dungeon: Dungeon
@@ -546,7 +546,7 @@ watch(
                     <DBMonsterCompactCard
                         v-for="monsterId in dungeon.m"
                         :key="monsterId"
-                        :monster="new LeveledMonster(monsterId, monsterTabLevel, false, getDungeonMonsterHpMultiplier())"
+                        :monster="LeveledMonsterHelper.fromId(monsterId, monsterTabLevel, false, getDungeonMonsterHpMultiplier())"
                     />
                 </div>
             </div>
@@ -558,7 +558,7 @@ watch(
                     <DBMonsterCompactCard
                         v-for="monsterId in dungeon.sm"
                         :key="monsterId"
-                        :monster="new LeveledMonster(monsterId, monsterTabLevel, false, getDungeonMonsterHpMultiplier())"
+                        :monster="LeveledMonsterHelper.fromId(monsterId, monsterTabLevel, false, getDungeonMonsterHpMultiplier())"
                     />
                 </div>
             </div>
@@ -637,7 +637,9 @@ watch(
                                                 class="space-y-1"
                                             >
                                                 <DBMonsterCompactCard
-                                                    :monster="new LeveledMonster(spawnMonster.id, getSpawnMonsterLevel(spawnMonster))"
+                                                    :monster="
+                                                        LeveledMonsterHelper.fromId(spawnMonster.id, getSpawnMonsterLevel(spawnMonster))
+                                                    "
                                                 />
                                                 <div class="flex items-center justify-between rounded bg-base-200 px-2 py-1 text-xs">
                                                     <span class="text-base-content/70">数量</span>
@@ -719,7 +721,7 @@ watch(
                                                             class="space-y-1"
                                                         >
                                                             <DBMonsterCompactCard
-                                                                :monster="new LeveledMonster(groupMonster.id, getSpawnLevelBase())"
+                                                                :monster="LeveledMonsterHelper.fromId(groupMonster.id, getSpawnLevelBase())"
                                                             />
                                                             <div
                                                                 class="flex items-center justify-between rounded bg-base-200 px-2 py-1 text-xs"
@@ -749,7 +751,10 @@ watch(
                                             >
                                                 <DBMonsterCompactCard
                                                     :monster="
-                                                        new LeveledMonster(spawnTagMonster.id, getSpawnTagMonsterLevel(spawnTagMonster))
+                                                        LeveledMonsterHelper.fromId(
+                                                            spawnTagMonster.id,
+                                                            getSpawnTagMonsterLevel(spawnTagMonster)
+                                                        )
                                                     "
                                                 />
                                                 <div class="flex items-center justify-between rounded bg-base-200 px-2 py-1 text-xs">
@@ -818,25 +823,8 @@ watch(
                             :key="`${item.reward.id}-${item.indices.join('-')}`"
                             class="p-2 bg-base-200 rounded hover:bg-base-300 transition-colors duration-200"
                         >
-                            <div class="flex items-center justify-between mb-1">
-                                <span class="text-sm font-medium"
-                                    >{{ formatRewardIndexRanges(item.indices) }} 奖励组 {{ item.reward.id }}</span
-                                >
-
-                                <span
-                                    class="text-xs px-1.5 py-0.5 rounded"
-                                    :class="
-                                        getDropModeText(item.reward.m || '') === '独立'
-                                            ? 'bg-success text-success-content'
-                                            : 'bg-warning text-warning-content'
-                                    "
-                                >
-                                    {{ getDropModeText(item.reward.m || "") }}
-                                    <span v-if="item.reward.totalP">总容量 {{ item.reward.totalP }}</span>
-                                </span>
-                            </div>
                             <!-- 使用 RewardItem 组件显示奖励 -->
-                            <RewardItem :reward="item.reward" />
+                            <RewardItem :reward="item.reward" :header="`${formatRewardIndexRanges(item.indices)} 奖励组`" />
                         </div>
                     </div>
                 </div>
@@ -850,22 +838,8 @@ watch(
                             :key="reward.id"
                             class="p-2 bg-base-200 rounded hover:bg-base-300 transition-colors duration-200"
                         >
-                            <div class="flex items-center justify-between mb-1">
-                                <span class="text-sm font-medium">特殊奖励组 {{ reward.id }}</span>
-                                <span
-                                    class="text-xs px-1.5 py-0.5 rounded"
-                                    :class="
-                                        getDropModeText(reward.m || '') === '独立'
-                                            ? 'bg-success text-success-content'
-                                            : 'bg-warning text-warning-content'
-                                    "
-                                >
-                                    {{ getDropModeText(reward.m || "") }}
-                                    <span v-if="reward.totalP">总容量 {{ reward.totalP }}</span>
-                                </span>
-                            </div>
                             <!-- 使用 RewardItem 组件显示奖励 -->
-                            <RewardItem :reward="reward" />
+                            <RewardItem :reward="reward" header="特殊奖励组" />
                         </div>
                     </div>
                 </div>
